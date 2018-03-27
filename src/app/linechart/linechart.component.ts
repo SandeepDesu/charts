@@ -61,6 +61,7 @@ export class LinechartComponent extends DisplayComponent<MultiPeriodChart> imple
   }
 
   private drawAxis() {
+    d3.selectAll('#lineChart>svg').attr('width', '100%');
     this.svg.append('g')
       .attr('class', 'axis axis--x')
       .attr('transform', 'translate(0,' + this.height + ')')

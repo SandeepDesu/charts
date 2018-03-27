@@ -65,7 +65,7 @@ export class StackedBarChartComponent extends DisplayComponent<MultiPeriodChart>
   }
 
   private drawChart(data: any[]) {
-
+    d3.selectAll('#stackedChart>svg').attr('width', '100%');
     let keys = Object.getOwnPropertyNames(data[0]).slice(1);
     data = data.map(v => {
       v.total = keys.map(key => v[key]).reduce((a, b) => a + b, 0);

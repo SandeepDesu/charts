@@ -70,6 +70,7 @@ export class WaterfallChartComponent extends DisplayComponent<MultiPeriodChart> 
     }
 
     private initAxis() {
+        d3.selectAll('#waterfallchart>svg').attr('width', '100%');
         this.x = d3Scale.scaleBand().range([0, this.width]).padding(0.3);
         this.y = d3Scale.scaleLinear().range([this.height, 0]);
         this.x.domain(this.data.map((d) => d.name));
@@ -83,7 +84,7 @@ export class WaterfallChartComponent extends DisplayComponent<MultiPeriodChart> 
             .call(d3Axis.axisBottom(this.x));
         this.g.append('g')
             .attr('class', 'y axis')
-            .call(d3Axis.axisLeft(this.y).tickFormat((d) => { return d; }));
+            .call(d3Axis.axisLeft(this.y).tickFormat((d) => { return d / 1000; }));
     }
 
     private drawBar() {
@@ -91,7 +92,7 @@ export class WaterfallChartComponent extends DisplayComponent<MultiPeriodChart> 
             .data(this.data)
             .enter().append('g')
             .attr('class', (d) => 'bar ' + d.class)
-            .attr('transform', (d) => 'translate(' + this.x(d.name) + ',0)');
+            .attr('transform', (d) => 'translate(' + (this.x(d.name) + 30) + ',0)');
 
         bar.append('rect')
             .attr('y', (d) => this.y(Math.max(d.start, d.end)))

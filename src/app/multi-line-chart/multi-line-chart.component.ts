@@ -84,6 +84,7 @@ export class MultiLineChartComponent extends DisplayComponent<MultiPeriodChart> 
     this.x = d3Scale.scaleLinear().range([0, this.width]);
     this.y = d3Scale.scaleLinear().rangeRound([this.height, 0]);
     this.z = d3Scale.scaleOrdinal(d3Scale.schemeCategory10);
+    d3.selectAll('#multiLineChart>svg').attr('width', '100%');
     this.line = d3Shape.line()
       .curve(d3Shape.curveBasis)
       .x((d: any) => this.x(d.label))

@@ -6,11 +6,13 @@ import * as d3Axis from 'd3-axis';
 import * as deArea from 'd3-shape';
 import { DisplayComponent } from "../dynamic-display/IDisplayComponent";
 import { MultiPeriodChart } from "../DataBuilders";
+
 @Component({
   selector: 'app-area-chart',
   templateUrl: './area-chart.component.html',
   styleUrls: ['./area-chart.component.css']
 })
+
 export class AreaChartComponent extends DisplayComponent<MultiPeriodChart> implements OnInit {
   private width: number;
   private height: number;
