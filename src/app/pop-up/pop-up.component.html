@@ -1,0 +1,9 @@
+<div class="custom-popup">
+  <h3>{{Title}}</h3>
+  <ul class="nav nav-tabs nav-justified">
+    <li *ngFor="let tab of tabs" [ngClass]="{'active': selectedTabName == tab.getName()}">
+      <a (click)="selectTab(tab)"> {{tab.getName()}}</a>
+    </li>
+  </ul>  
+  <ng-template app-dynamic-content></ng-template>
+</div>
