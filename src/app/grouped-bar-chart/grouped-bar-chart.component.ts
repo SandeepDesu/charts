@@ -54,7 +54,7 @@ export class GroupedBarChartComponent extends DisplayComponent<MultiPeriodChart>
   }
 
   private initSvg() {
-    this.svg = d3.select('#groupedChart>svg');
+    this.svg = d3.select('#grouped-chart>svg');
     this.width = +this.svg.attr('width') - this.margin.left - this.margin.right;
     this.height = +this.svg.attr('height') - this.margin.top - this.margin.bottom;
     this.g = this.svg.append('g')
@@ -62,7 +62,7 @@ export class GroupedBarChartComponent extends DisplayComponent<MultiPeriodChart>
   }
 
   private initAxis() {
-    d3.selectAll('#groupedChart>svg').attr('width', '100%');
+    d3.selectAll('#grouped-chart>svg').attr('width', '100%');
     this.x0 = d3Scale.scaleBand().range([0, this.width]);
     this.x1 = d3Scale.scaleBand().padding(0.10);
     this.y = d3Scale.scaleLinear().rangeRound([this.height, 0]);

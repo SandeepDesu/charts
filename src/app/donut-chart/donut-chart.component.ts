@@ -39,11 +39,11 @@ export class DonutChartComponent extends DisplayComponent<MultiPeriodChart> impl
   }
 
   private initSvg() {
-    this.svg = d3.select('#donutChart>svg');
+    this.svg = d3.select('#donut-chart>svg');
     this.width = +this.svg.attr('width');
     this.height = +this.svg.attr('height');
     this.radius = Math.min(this.width, this.height) / 2;
-    d3.selectAll('#donutChart>svg').attr('width', '100%');
+    d3.selectAll('#donut-chart>svg').attr('width', '100%');
     this.color = d3Scale.scaleOrdinal()
       .range(['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00']);
     this.arc = d3Shape.arc()
@@ -52,7 +52,7 @@ export class DonutChartComponent extends DisplayComponent<MultiPeriodChart> impl
     this.pie = d3Shape.pie()
       .sort(null)
       .value((d: any) => d.y);
-    this.svg = d3.select('#donutChart>svg')
+    this.svg = d3.select('#donut-chart>svg')
       .append('g')
       .attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')');
   }

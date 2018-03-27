@@ -14,7 +14,7 @@ import { MultiPeriodChart } from "../DataBuilders";
 })
 
 export class LinechartComponent extends DisplayComponent<MultiPeriodChart> implements OnInit {
-  private margin = { top: 20, right: 20, bottom: 30, left: 50 };
+  private margin = { top: 20, right: 20, bottom: 30, left: 40 };
   private width: number;
   private height: number;
   private x: any;
@@ -25,8 +25,6 @@ export class LinechartComponent extends DisplayComponent<MultiPeriodChart> imple
 
   constructor() {
     super();
-    this.width = 900 - this.margin.left - this.margin.right;
-    this.height = 500 - this.margin.top - this.margin.bottom;
   }
 
   protected loadData(): void {
@@ -48,8 +46,10 @@ export class LinechartComponent extends DisplayComponent<MultiPeriodChart> imple
   }
 
   private initSvg() {
-    this.svg = d3.select('#lineChart>svg')
-      .append('g')
+    this.svg = d3.select('#line-chart > svg')
+    this.width = +this.svg.attr('width') - this.margin.left - this.margin.right;
+    this.height = +this.svg.attr('height') - this.margin.top - this.margin.bottom;
+    this.svg.append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
   }
 
@@ -61,7 +61,6 @@ export class LinechartComponent extends DisplayComponent<MultiPeriodChart> imple
   }
 
   private drawAxis() {
-    d3.selectAll('#lineChart>svg').attr('width', '100%');
     this.svg.append('g')
       .attr('class', 'axis axis--x')
       .attr('transform', 'translate(0,' + this.height + ')')
@@ -69,11 +68,11 @@ export class LinechartComponent extends DisplayComponent<MultiPeriodChart> imple
 
     this.svg.append('g')
       .attr('class', 'axis axis--y')
-      .call(d3Axis.axisLeft(this.y))
+      .call(d3Axis.axisLeft(this.y).ticks(5))
       .append('text')
       .attr('class', 'axis-title')
       .attr('transform', 'rotate(-90)')
-      .attr('y', 6)
+      .attr('y', 1)
       .attr('dy', '.71em')
       .style('text-anchor', 'end');
   }

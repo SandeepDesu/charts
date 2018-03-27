@@ -50,7 +50,7 @@ export class StackedBarChartComponent extends DisplayComponent<MultiPeriodChart>
   }
 
   private initSvg() {
-    this.svg = d3.select('#stackedChart>svg');
+    this.svg = d3.select('#stacked-chart>svg');
     this.width = this.svg.attr('width') - this.margin.left - this.margin.right;
     this.height = this.svg.attr('height') - this.margin.top - this.margin.bottom;
     this.g = this.svg.append('g').attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
@@ -65,7 +65,7 @@ export class StackedBarChartComponent extends DisplayComponent<MultiPeriodChart>
   }
 
   private drawChart(data: any[]) {
-    d3.selectAll('#stackedChart>svg').attr('width', '100%');
+    d3.selectAll('#stacked-chart>svg').attr('width', '100%');
     let keys = Object.getOwnPropertyNames(data[0]).slice(1);
     data = data.map(v => {
       v.total = keys.map(key => v[key]).reduce((a, b) => a + b, 0);

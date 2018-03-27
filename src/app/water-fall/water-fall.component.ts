@@ -62,7 +62,7 @@ export class WaterfallChartComponent extends DisplayComponent<MultiPeriodChart> 
     }
 
     private initSvg() {
-        this.svg = d3.select('#waterfallchart > svg');
+        this.svg = d3.select('#waterfall-chart > svg');
         this.width = +this.svg.attr('width') - this.margin.left - this.margin.right;
         this.height = +this.svg.attr('height') - this.margin.top - this.margin.bottom;
         this.g = this.svg.append('g')
@@ -70,7 +70,7 @@ export class WaterfallChartComponent extends DisplayComponent<MultiPeriodChart> 
     }
 
     private initAxis() {
-        d3.selectAll('#waterfallchart>svg').attr('width', '100%');
+        d3.selectAll('#waterfall-chart>svg').attr('width', '100%');
         this.x = d3Scale.scaleBand().range([0, this.width]).padding(0.3);
         this.y = d3Scale.scaleLinear().range([this.height, 0]);
         this.x.domain(this.data.map((d) => d.name));

@@ -43,7 +43,7 @@ export class BarChartComponent extends DisplayComponent<MultiPeriodChart> implem
   }
 
   private initSvg() {
-    this.svg = d3.select('#barchart > svg');
+    this.svg = d3.select('#bar-chart > svg');
     this.width = +this.svg.attr('width') - this.margin.left - this.margin.right;
     this.height = +this.svg.attr('height') - this.margin.top - this.margin.bottom;
     this.g = this.svg.append('g')
@@ -51,7 +51,7 @@ export class BarChartComponent extends DisplayComponent<MultiPeriodChart> implem
   }
 
   private initAxis() {
-    d3.selectAll('#barchart>svg').attr('width', '100%');
+    d3.selectAll('#bar-chart>svg').attr('width', '100%');
     this.x = d3Scale.scaleBand().rangeRound([0, this.width]).padding(0.1);
     this.y = d3Scale.scaleLinear().rangeRound([this.height, 0]);
     this.x.domain(this.data.map((d) => d.x));

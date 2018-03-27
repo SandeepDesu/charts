@@ -43,7 +43,7 @@ export class AreaChartComponent extends DisplayComponent<MultiPeriodChart> imple
   }
 
   private initSvg() {
-    this.svg = d3.select('#areaChart>svg');
+    this.svg = d3.select('#area-chart>svg');
     this.width = +this.svg.attr('width') - this.margin.left - this.margin.right;
     this.height = +this.svg.attr('height') - this.margin.top - this.margin.bottom;
     this.g = this.svg.append('g')
@@ -51,7 +51,7 @@ export class AreaChartComponent extends DisplayComponent<MultiPeriodChart> imple
   }
 
   private initAxis() {
-    d3.selectAll('#areaChart>svg').attr('width', '100%');
+    d3.selectAll('#area-chart>svg').attr('width', '100%');
     this.x = d3Scale.scaleLinear().rangeRound([0, this.width]);
     this.y = d3Scale.scaleLinear().rangeRound([this.height, 0]);
     this.area = deArea.area().x((d) => this.x(d.x))
