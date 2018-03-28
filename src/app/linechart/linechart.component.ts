@@ -14,7 +14,7 @@ import { MultiPeriodChart } from "../DataBuilders";
 })
 
 export class LinechartComponent extends DisplayComponent<MultiPeriodChart> implements OnInit {
-  private margin = { top: 20, right: 20, bottom: 30, left: 40 };
+  private margin = { top: 30, right: 20, bottom: 30, left: 50 };
   private width: number;
   private height: number;
   private x: any;
@@ -22,6 +22,7 @@ export class LinechartComponent extends DisplayComponent<MultiPeriodChart> imple
   private svg: any;
   private line: d3Shape.Line<[number, number]>;
   private myOwn = [];
+  private g:any;
 
   constructor() {
     super();
@@ -49,7 +50,7 @@ export class LinechartComponent extends DisplayComponent<MultiPeriodChart> imple
     this.svg = d3.select('#line-chart > svg')
     this.width = +this.svg.attr('width') - this.margin.left - this.margin.right;
     this.height = +this.svg.attr('height') - this.margin.top - this.margin.bottom;
-    this.svg.append('g')
+    this.g = this.svg.append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
   }
 
@@ -61,18 +62,18 @@ export class LinechartComponent extends DisplayComponent<MultiPeriodChart> imple
   }
 
   private drawAxis() {
-    this.svg.append('g')
+    this.g.append('g')
       .attr('class', 'axis axis--x')
       .attr('transform', 'translate(0,' + this.height + ')')
       .call(d3Axis.axisBottom(this.x).tickFormat((d, i) => this.myOwn[i] && this.myOwn[i].display ? this.myOwn[i].display : null));
 
-    this.svg.append('g')
+    this.g.append('g')
       .attr('class', 'axis axis--y')
       .call(d3Axis.axisLeft(this.y).ticks(5))
       .append('text')
       .attr('class', 'axis-title')
       .attr('transform', 'rotate(-90)')
-      .attr('y', 1)
+      .attr('y', 7)
       .attr('dy', '.71em')
       .style('text-anchor', 'end');
   }
@@ -82,7 +83,7 @@ export class LinechartComponent extends DisplayComponent<MultiPeriodChart> imple
       .x((d: any) => this.x(d.label))
       .y((d: any) => this.y(d.value));
 
-    this.svg.append('path')
+    this.g.append('path')
       .datum(this.myOwn)
       .attr('class', 'line')
       .attr('d', this.line);
