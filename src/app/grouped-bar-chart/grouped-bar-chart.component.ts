@@ -6,7 +6,7 @@ import * as d3Axis from 'd3-axis';
 import * as d3Collection from 'd3-collection';
 import { DisplayComponent } from "../dynamic-display/IDisplayComponent";
 import { MultiPeriodChart } from "../DataBuilders";
-
+import * as _ from 'lodash';
 @Component({
   selector: 'app-double-bar-chart',
   templateUrl: './grouped-bar-chart.component.html',
@@ -33,7 +33,27 @@ export class GroupedBarChartComponent extends DisplayComponent<MultiPeriodChart>
 
   protected loadData(): void {
     if (this.Source) {
-      this.source = this.Source.getData();
+      const sourceData = this.Source.getData();
+      sourceData.forEach((data) => {
+        if (this.source.length > 0) {
+          const index = _.findIndex(this.source, { x: data.x });
+          if (index === -1) {
+            let obj = {};
+            obj['x'] = data.x;
+            obj[0] = data.y
+            this.source.push(obj);
+          } else {
+            let obj = this.source[index];
+            obj[Object.keys(obj).length - 1] = data.y;
+            this.source[index] = obj;
+          }
+        } else {
+          let obj = {};
+          obj['x'] = data.x;
+          obj[0] = data.y
+          this.source.push(obj);
+        }
+      });
     }
   }
 
