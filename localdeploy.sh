@@ -1,4 +1,5 @@
 rm -rf dist*
+rm -rf dist.tgz
 npm run packagr
 
 rm -rf ./node_modules/charts-d3/*
