@@ -5,6 +5,7 @@ import * as d3Array from 'd3-array';
 import * as d3Axis from 'd3-axis';
 import { DisplayComponent } from "../dynamic-display/IDisplayComponent";
 import { MultiPeriodChart } from "../DataBuilders";
+
 @Component({
   selector: 'app-barchart',
   templateUrl: './barchart.component.html',
@@ -14,7 +15,7 @@ export class BarChartComponent extends DisplayComponent<MultiPeriodChart> implem
 
   private width: number;
   private height: number;
-  private margin = { top: 20, right: 20, bottom: 30, left: 40 };
+  private margin = { top: 20, right: 20, bottom: 50, left: 40 };
   private x: any;
   private y: any;
   private svg: any;
@@ -62,10 +63,12 @@ export class BarChartComponent extends DisplayComponent<MultiPeriodChart> implem
     this.g.append('g')
       .attr('class', 'axis axis--x')
       .attr('transform', 'translate(0,' + this.height + ')')
-      .call(d3Axis.axisBottom(this.x));
+      .call(d3Axis.axisBottom(this.x))
+      .selectAll(".tick text")
+      .call(this.wrap, this.x.bandwidth()/3);
     this.g.append('g')
       .attr('class', 'axis axis--y')
-      .call(d3Axis.axisLeft(this.y).tickFormat((d) => d / 10000))
+      .call(d3Axis.axisLeft(this.y).ticks(5))
       .append('text')
       .attr('class', 'axis-title')
       .attr('transform', 'rotate(-90)')
@@ -82,6 +85,32 @@ export class BarChartComponent extends DisplayComponent<MultiPeriodChart> implem
       .attr('x', (d) => this.x(d.x))
       .attr('y', (d) => this.y(d.y))
       .attr('width', this.x.bandwidth())
-      .attr('height', (d) => this.height - this.y(d.y));
+      .attr('height', (d) => this.height - this.y(d.y))
+
   }
+
+  wrap(text, width) {
+    text.each(function() {
+      var text = d3.select(this),
+          words = text.text().split(/\s+/).reverse(),
+          word,
+          line = [],
+          lineNumber = 0,
+          lineHeight = 1.1, // ems
+          y = text.attr("y"),
+          dy = parseFloat(text.attr("dy")),
+          tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em")
+      while (word = words.pop()) {
+        line.push(word)
+        tspan.text(line.join(" "))
+        if (tspan.node().getComputedTextLength() > width) {
+          line.pop()
+          tspan.text(line.join(" "))
+          line = [word]
+          tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", `${++lineNumber * lineHeight + dy}em`).text(word)
+        }
+      }
+    })
+  }
+
 }

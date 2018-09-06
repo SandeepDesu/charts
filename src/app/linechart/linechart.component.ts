@@ -14,7 +14,7 @@ import { MultiPeriodChart } from "../DataBuilders";
 })
 
 export class LinechartComponent extends DisplayComponent<MultiPeriodChart> implements OnInit {
-  private margin = { top: 30, right: 20, bottom: 30, left: 50 };
+  private margin = { top: 30, right: 20, bottom: 50, left: 50 };
   private width: number;
   private height: number;
   private x: any;
@@ -66,7 +66,9 @@ export class LinechartComponent extends DisplayComponent<MultiPeriodChart> imple
     this.g.append('g')
       .attr('class', 'axis axis--x')
       .attr('transform', 'translate(0,' + this.height + ')')
-      .call(d3Axis.axisBottom(this.x).tickFormat((d, i) => this.myOwn[i] && this.myOwn[i].display ? this.myOwn[i].display : null));
+      .call(d3Axis.axisBottom(this.x).tickFormat((d, i) => this.myOwn[i] && this.myOwn[i].display ? this.myOwn[i].display : null).ticks(this.myOwn.length))
+      .selectAll(".tick text")
+      .call(this.wrap, 5);
 
     this.g.append('g')
       .attr('class', 'axis axis--y')
@@ -88,6 +90,31 @@ export class LinechartComponent extends DisplayComponent<MultiPeriodChart> imple
       .datum(this.myOwn)
       .attr('class', 'line')
       .attr('d', this.line);
+  }
+
+
+  wrap(text, width) {
+    text.each(function() {
+      var text = d3.select(this),
+          words = text.text().split(/\s+/).reverse(),
+          word,
+          line = [],
+          lineNumber = 0,
+          lineHeight = 1.1, // ems
+          y = text.attr("y"),
+          dy = parseFloat(text.attr("dy")),
+          tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em")
+      while (word = words.pop()) {
+        line.push(word)
+        tspan.text(line.join(" "))
+        if (tspan.node().getComputedTextLength() > width) {
+          line.pop()
+          tspan.text(line.join(" "))
+          line = [word]
+          tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", `${++lineNumber * lineHeight + dy}em`).text(word)
+        }
+      }
+    })
   }
 
 

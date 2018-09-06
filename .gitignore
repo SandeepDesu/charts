@@ -47,6 +47,6 @@ package-lock.json
 
 .ng_pkg_build
 
-dist
+dist*
 
-dist.tgz
+.history/
